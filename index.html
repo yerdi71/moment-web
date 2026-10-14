@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jeden Moment: prywatny dziennik wdzięczności na telefon</title>
+  <meta name="description" content="Jeden Moment to prywatny dziennik wdzięczności. Jeden wpis dziennie, bez kont i reklam. Twoje drzewko rośnie razem z Twoją praktyką.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F5F2FB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#130F20" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Jeden Moment: codziennie jeden moment wdzięczności">
+  <meta property="og:description" content="Prywatny dziennik wdzięczności na telefon. Jedna dobra rzecz dziennie, bez kont i reklam.">
+  <meta property="og:locale" content="pl_PL">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#tresc">Przejdź do treści</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="#top">Jeden Moment</a>
+      <nav class="nav" aria-label="Główna nawigacja">
+        <a href="#zasada">Zasada</a>
+        <a href="#ogrod">Ogród</a>
+        <a href="#odznaki">Odznaki</a>
+        <a href="#funkcje">Funkcje</a>
+        <a href="#motywy">Motywy</a>
+        <a href="#prywatnosc">Prywatność</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="tresc">
+    <!-- ═════════ HERO + DEMO ═════════ -->
+    <section class="hero wrap" id="top">
+      <h1 class="hero-title">Dziś wystarczy jeden moment.</h1>
+      <p class="lead">
+        Jeden Moment to prywatny dziennik wdzięczności na telefon. Zapisujesz jedną dobrą rzecz dziennie,
+        a aplikacja zamienia to w Twój osobisty ogród wspomnień. Spróbuj poniżej: jedno zdanie, 30 sekund.
+      </p>
+
+      <section class="demo" id="demo" aria-labelledby="demo-title">
+        <h2 id="demo-title" class="visually-hidden">Wypróbuj: zapisz swój dzisiejszy moment</h2>
+
+        <noscript><p class="demo-note">Demo wymaga włączonego JavaScriptu. Reszta strony działa bez niego.</p></noscript>
+
+        <div class="demo-grid">
+          <div class="write">
+            <p class="write-date" id="demo-date"></p>
+
+            <form id="moment-form" novalidate>
+              <label class="write-prompt" for="moment-text" id="prompt-label">Za co jesteś dziś wdzięczny?</label>
+              <textarea id="moment-text" name="text" rows="3" maxlength="150" placeholder="Jedno zdanie wystarczy" aria-describedby="counter form-error"></textarea>
+              <p class="counter" id="counter">0 / 150</p>
+
+              <fieldset class="moods">
+                <legend>Jaki to był moment?</legend>
+                <div class="mood-row">
+                  <label class="mood"><input type="radio" name="mood" value="😊" checked><span class="mood-face" aria-hidden="true">😊</span><span class="visually-hidden">Pozytywny Promień</span></label>
+                  <label class="mood"><input type="radio" name="mood" value="😌"><span class="mood-face" aria-hidden="true">😌</span><span class="visually-hidden">Oaza Spokoju</span></label>
+                  <label class="mood"><input type="radio" name="mood" value="⚡"><span class="mood-face" aria-hidden="true">⚡</span><span class="visually-hidden">Wulkan Energii</span></label>
+                  <label class="mood"><input type="radio" name="mood" value="💡"><span class="mood-face" aria-hidden="true">💡</span><span class="visually-hidden">Błyskotliwy Umysł</span></label>
+                  <label class="mood"><input type="radio" name="mood" value="❤️"><span class="mood-face" aria-hidden="true">❤️</span><span class="visually-hidden">Czułe Serce</span></label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="moment-place">Miejsce (opcjonalnie)</label>
+                <input id="moment-place" name="place" type="text" maxlength="40" placeholder="np. Kraków, Dom" autocomplete="off">
+              </div>
+
+              <p class="form-error" id="form-error" role="alert"></p>
+
+              <div class="actions">
+                <button type="submit" class="btn btn-primary" id="save-btn">Zapisz ten moment</button>
+                <button type="button" class="btn btn-quiet" id="cancel-edit" hidden>Anuluj</button>
+              </div>
+            </form>
+
+            <div id="today-entry" hidden>
+              <p class="entry-meta" id="entry-meta"></p>
+              <blockquote class="entry-text" id="entry-text"></blockquote>
+              <p class="entry-done">Na dziś to wszystko. Drugiego momentu dzisiaj nie dodasz, ale możesz ten edytować albo usunąć.</p>
+              <div class="actions">
+                <button type="button" class="btn btn-quiet" id="edit-btn">Edytuj</button>
+                <button type="button" class="btn btn-quiet" id="delete-btn">Usuń</button>
+              </div>
+            </div>
+
+            <p class="demo-note">Demo działa tylko w Twojej przeglądarce. Nic nie jest nigdzie wysyłane.</p>
+          </div>
+
+          <aside class="status" aria-label="Twoje drzewko i passa">
+            <p class="tree-glyph" id="tree-glyph" aria-hidden="true">🌱</p>
+            <h3 class="tree-name" id="tree-name">Zasiane Nasionko</h3>
+            <p class="tree-desc" id="tree-desc"></p>
+            <div class="bar" role="progressbar" aria-label="Postęp do kolejnego etapu drzewka" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="tree-bar-wrap">
+              <div class="bar-fill" id="tree-bar"></div>
+            </div>
+            <p class="tree-next" id="tree-next"></p>
+            <dl class="numbers">
+              <div><dt>Wpisy</dt><dd id="stat-total">0</dd></div>
+              <div><dt>Passa</dt><dd id="stat-streak">0 dni</dd></div>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="demo-tools">
+          <p class="demo-tools-text">
+            W aplikacji nowy moment możesz dodać dopiero następnego dnia. Tu możesz przyspieszyć czas i zobaczyć,
+            jak rośnie drzewko. Jeśli pominiesz dzień, passa wróci do zera.
+          </p>
+          <div class="actions">
+            <button type="button" class="btn btn-quiet" id="next-day">Przesuń demo o jeden dzień</button>
+            <button type="button" class="btn btn-quiet" id="seed">Wczytaj 9 przykładowych dni</button>
+            <button type="button" class="btn btn-quiet" id="reset">Wyczyść demo</button>
+          </div>
+        </div>
+
+        <div class="log">
+          <h3 class="log-title">Twoje wpisy w demo</h3>
+          <ul class="log-list" id="log-list"></ul>
+          <button type="button" class="btn-link" id="log-more" hidden>Pokaż starsze wpisy</button>
+        </div>
+      </section>
+    </section>
+
+    <!-- ═════════ START DNIA ═════════ -->
+    <section class="section daily" aria-labelledby="daily-title">
+      <div class="wrap">
+        <h2 class="h2" id="daily-title">Każdy dzień zaczyna się od jednej myśli</h2>
+        <p class="section-intro">Poniżej to, co aplikacja pokazuje dziś. Przesuń demo o dzień, a zmienią się też cytat, afirmacja i pytanie.</p>
+        <div class="daily-grid">
+          <figure class="daily-item">
+            <figcaption>Cytat dnia</figcaption>
+            <blockquote class="daily-quote"><p id="daily-quote"></p></blockquote>
+            <p class="daily-author" id="daily-author"></p>
+          </figure>
+          <div class="daily-item">
+            <h3 class="daily-label">Cichy Anioł</h3>
+            <p class="daily-affirmation" id="daily-affirmation"></p>
+          </div>
+          <div class="daily-item">
+            <h3 class="daily-label">Pytanie na dziś</h3>
+            <p class="daily-affirmation" id="daily-prompt"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ ZASADA ═════════ -->
+    <section class="section" id="zasada" aria-labelledby="zasada-title">
+      <div class="wrap split">
+        <div>
+          <h2 class="h2" id="zasada-title">Drugiego momentu dziś nie dodasz.</h2>
+          <p class="body-large">
+            Możesz edytować dzisiejszy wpis albo go usunąć, ale nowego w tym samym dniu już nie zapiszesz.
+            To nie ograniczenie techniczne, tylko sedno aplikacji: jeden moment to jedna refleksja,
+            a jeden wpis to jedna prawda o dniu. Jakość ponad ilość.
+          </p>
+        </div>
+        <div class="is-isnt">
+          <div>
+            <h3 class="list-title">Jeden Moment to</h3>
+            <ul class="plain-list">
+              <li>prywatny, cichy pamiętnik</li>
+              <li>wszystko offline, na telefonie</li>
+              <li>bez kont i bez reklam</li>
+              <li>jakość ważniejsza niż ilość</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="list-title">Jeden Moment to nie</h3>
+            <ul class="plain-list plain-list-not">
+              <li>kolejna aplikacja do medytacji</li>
+              <li>kolekcja płatnych subskrypcji</li>
+              <li>kolejny „wellness tracker”</li>
+              <li>wyścig o liczby i statystyki</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ OGRÓD ═════════ -->
+    <section class="section" id="ogrod" aria-labelledby="ogrod-title">
+      <div class="wrap">
+        <h2 class="h2" id="ogrod-title">Każdy wpis podlewa Twoje drzewko</h2>
+        <p class="section-intro">
+          Drzewko rośnie wraz z liczbą zapisanych momentów. Zaznaczony jest etap, na którym jesteś teraz w demo powyżej.
+        </p>
+        <ol class="stages" id="stages"></ol>
+      </div>
+    </section>
+
+    <!-- ═════════ ODZNAKI ═════════ -->
+    <section class="section" id="odznaki" aria-labelledby="odznaki-title">
+      <div class="wrap">
+        <h2 class="h2" id="odznaki-title">Dziewięć kamieni milowych</h2>
+        <p class="section-intro">
+          Odznaki odblokowują się za kolejne dni, wpisy i miejsca. Siedem z nich zdobędziesz w demo powyżej,
+          dwie zostały dla aplikacji.
+        </p>
+        <ul class="badges" id="badges"></ul>
+      </div>
+    </section>
+
+    <!-- ═════════ FUNKCJE ═════════ -->
+    <section class="section" id="funkcje" aria-labelledby="funkcje-title">
+      <div class="wrap">
+        <h2 class="h2" id="funkcje-title">Wszystko, co jest w aplikacji</h2>
+        <dl class="index">
+          <div>
+            <dt><span aria-hidden="true">✍️</span> Codzienne pisanie</dt>
+            <dd>Krótki tekst do 150 znaków, jedna emocja z pięciu, miejsce i <code>#tagi</code> do kategorii. Zdjęcie i notatka głosowa działają na razie jako wersja demo, prawdziwe dodawanie z galerii i nagrywanie są w planach.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">🔥</span> Passa dni</dt>
+            <dd>Liczy dni z rzędu, jak seria w Duolingo, tylko dla wdzięczności. Stuknięcie w nią pokazuje, od kiedy ją trzymasz i kiedy ostatnio pisałeś.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">📖</span> Cytat dnia</dt>
+            <dd>30 cytatów o wdzięczności, które zmieniają się codziennie, od Cycerona po Dalajlamę XIV.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">🕊️</span> Cichy Anioł</dt>
+            <dd>Codzienna afirmacja, jakby ktoś pomyślał o Tobie z czułością.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">⏳</span> Kapsuła czasu</dt>
+            <dd>Piszesz wiadomość do przyszłego siebie i wybierasz, za ile dni ma się otworzyć (domyślnie 30). Do tego czasu pozostaje zamknięta.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">⏪</span> Nostalgia</dt>
+            <dd>Pokazuje, co zapisałeś dokładnie tydzień, miesiąc i rok temu.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">🎁</span> Wspomnienie</dt>
+            <dd>Jedno stuknięcie i aplikacja wyciąga losowy wpis z Twojej historii, o którym mogłeś już zapomnieć.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">🧘</span> Moment Zen</dt>
+            <dd>Pełnoekranowy, ciemny widok jednego wpisu. Dziesięć sekund ciszy z jednym zdaniem.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">🎨</span> Generator kart</dt>
+            <dd>Zamienia wpis w kartę tekstową, którą wyślesz bliskiej osobie przez WhatsApp, SMS albo Messenger. Do wyboru pięć teł, od Lawendowego po Czystą Biel. Możesz wysłać ją też anonimowo, jako „Cichy Anioł”.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">📊</span> Podsumowanie tygodnia</dt>
+            <dd>Wykres ostatnich siedmiu dni, najczęstszy nastrój, najczęściej używane słowa i krótka rada dopasowana do tego, co ostatnio zapisywałeś.</dd>
+          </div>
+          <div>
+            <dt><span aria-hidden="true">📆</span> Rok w pikselach</dt>
+            <dd>Cały rok na jednym ekranie. Poniżej możesz zobaczyć, jak to wygląda z wpisami z demo.</dd>
+          </div>
+        </dl>
+
+        <div class="year" aria-labelledby="year-title">
+          <h3 class="h3" id="year-title">Rok w pikselach</h3>
+          <p class="year-caption" id="year-caption"></p>
+          <div class="year-scroll" tabindex="0" role="img" id="year-grid-wrap" aria-label="Rok w pikselach">
+            <div class="year-grid" id="year-grid" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ MOTYWY ═════════ -->
+    <section class="section" id="motywy" aria-labelledby="motywy-title">
+      <div class="wrap">
+        <h2 class="h2" id="motywy-title">Sześć motywów, jeden dziennik</h2>
+        <p class="section-intro">
+          Ta strona dopasowuje się do jasnego lub ciemnego trybu Twojego systemu, tak jak motyw Auto w aplikacji.
+          Pozostałe pięć to ręcznie dobrane palety.
+        </p>
+        <ul class="themes">
+          <li class="theme theme-auto">
+            <div class="theme-half" style="--t-bg:#F9FAFB;--t-card:#FFFFFF;--t-text:#111827;--t-sub:#6B7280;--t-accent:#8B5CF6;--t-border:#E5E7EB;--t-bw:1px;--t-r:20px">
+              <p class="theme-sample">Jasny</p>
+            </div>
+            <div class="theme-half" style="--t-bg:#0F0F0F;--t-card:#1A1A1A;--t-text:#FFFFFF;--t-sub:#8B949E;--t-accent:#A855F7;--t-border:#333333;--t-bw:1px;--t-r:16px">
+              <p class="theme-sample">Ciemny</p>
+            </div>
+            <div class="theme-caption"><h3>Auto</h3><p>Dopasowuje się do systemu. Zawsze działa.</p></div>
+          </li>
+          <li class="theme" style="--t-bg:#F9FAFB;--t-card:#FFFFFF;--t-text:#111827;--t-sub:#6B7280;--t-accent:#8B5CF6;--t-border:#E5E7EB;--t-bw:1px;--t-r:20px">
+            <div class="theme-face"><p class="theme-sample">Kawa na balkonie</p><span class="theme-chip">Zapisz</span></div>
+            <div class="theme-caption"><h3>Soft Minimal</h3><p>Jasny i minimalistyczny. Na dzień i dobrą widoczność.</p></div>
+          </li>
+          <li class="theme" style="--t-bg:#0F0F0F;--t-card:#1A1A1A;--t-text:#FFFFFF;--t-sub:#8B949E;--t-accent:#A855F7;--t-border:#333333;--t-bw:1px;--t-r:16px">
+            <div class="theme-face"><p class="theme-sample">Kawa na balkonie</p><span class="theme-chip">Zapisz</span></div>
+            <div class="theme-caption"><h3>Minimal Dark</h3><p>Ciemny i minimalistyczny. Na wieczór, dla zmęczonych oczu.</p></div>
+          </li>
+          <li class="theme" style="--t-bg:#F3F0E6;--t-card:#FFFFFF;--t-text:#000000;--t-sub:#000000;--t-accent:#B066FF;--t-border:#000000;--t-bw:3px;--t-r:0px">
+            <div class="theme-face"><p class="theme-sample">Kawa na balkonie</p><span class="theme-chip theme-chip-ink">Zapisz</span></div>
+            <div class="theme-caption"><h3>Neo-Brutalism</h3><p>Odważny, czarno-biały z fioletem. Gdy chcesz czegoś mocnego.</p></div>
+          </li>
+          <li class="theme" style="--t-bg:#FDFBF7;--t-card:#F4F1EA;--t-text:#1A1A1A;--t-sub:#3B3B3B;--t-accent:#D946EF;--t-border:#1A1A1A;--t-bw:2px;--t-r:4px">
+            <div class="theme-face"><p class="theme-sample">Kawa na balkonie</p><span class="theme-chip theme-chip-ink">Zapisz</span></div>
+            <div class="theme-caption"><h3>Hand-Drawn</h3><p>Ciepły, jak szkicownik. Gdy chcesz czegoś osobistego.</p></div>
+          </li>
+          <li class="theme" style="--t-bg:#0B0B1A;--t-card:#16162D;--t-text:#FFFFFF;--t-sub:#A78BFA;--t-accent:#C084FC;--t-border:#4C1D95;--t-bw:1px;--t-r:20px">
+            <div class="theme-face"><p class="theme-sample">Kawa na balkonie</p><span class="theme-chip theme-chip-ink">Zapisz</span></div>
+            <div class="theme-caption"><h3>Dark Neon</h3><p>Ciemny z akcentami fioletu. Dla fanów cyber-estetyki.</p></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═════════ PRYWATNOŚĆ ═════════ -->
+    <section class="section" id="prywatnosc" aria-labelledby="prywatnosc-title">
+      <div class="wrap split">
+        <div>
+          <h2 class="h2" id="prywatnosc-title">Wszystko zostaje na Twoim telefonie.</h2>
+          <p class="body-large">
+            Jeden Moment nie ma serwerów ani kont. Wpisy zapisują się lokalnie na urządzeniu,
+            więc nie ma komu ich oddać ani sprzedać.
+          </p>
+        </div>
+        <ul class="facts">
+          <li><strong>PIN od 4 do 6 cyfr.</strong> Chroni aplikację przed ciekawskimi.</li>
+          <li><strong>Blokada po 5 próbach.</strong> Przy błędnym PIN-ie 60 sekund karencji.</li>
+          <li><strong>Automatyczny backup.</strong> Pięć ostatnich kopii zapisanych lokalnie.</li>
+          <li><strong>Eksport w dowolnej chwili.</strong> Jako JSON albo zwykły tekst.</li>
+          <li><strong>Zero kont, zero reklam.</strong> I tak zostanie.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═════════ TECHNOLOGIA ═════════ -->
+    <section class="section" id="technologia" aria-labelledby="tech-title">
+      <div class="wrap split">
+        <div>
+          <h2 class="h2" id="tech-title">Pod spodem</h2>
+          <p class="body-large">
+            Aplikacja jest w wersji beta (0.7.2.2). Działa w Expo Go, bez kompilacji i bez zewnętrznych bibliotek natywnych.
+          </p>
+        </div>
+        <table class="tech">
+          <caption class="visually-hidden">Technologie użyte w aplikacji</caption>
+          <thead><tr><th scope="col">Technologia</th><th scope="col">Wersja</th><th scope="col">Do czego</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">React Native</th><td>0.81</td><td>Interfejs</td></tr>
+            <tr><th scope="row">Expo</th><td>54</td><td>Środowisko deweloperskie</td></tr>
+            <tr><th scope="row">AsyncStorage</th><td>2.2</td><td>Lokalna baza danych</td></tr>
+            <tr><th scope="row">JavaScript</th><td>ES2020+</td><td>Język</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p>Jeden Moment, wersja beta 0.7.2.2. Codziennie jeden moment wdzięczności.</p>
+      <p>
+        <a href="https://github.com/yerdi71/moment--app">Kod źródłowy aplikacji na GitHubie</a>
+      </p>
+      <p class="footer-small">Ta strona nie używa cookies, śledzenia ani zewnętrznych skryptów i czcionek. Demo zapisuje dane wyłącznie w pamięci Twojej przeglądarki.</p>
+    </div>
+  </footer>
+
+  <p class="visually-hidden" id="announce" role="status" aria-live="polite"></p>
+</body>
+</html>
